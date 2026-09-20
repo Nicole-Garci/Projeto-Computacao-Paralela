@@ -9,14 +9,21 @@
 using namespace std;
 using namespace std::chrono;
 
-int main() {
+int main(int argc, char* argv[]) {
 #ifdef _WIN32
     SetConsoleOutputCP(CP_UTF8);
     SetConsoleCP(CP_UTF8);
 #endif
 
     // Lista de arquivos a serem processados
-    vector<string> files = {"arquivo1.txt", "arquivo2.txt", "arquivo3.txt", "PequenaSereia.txt", "Odisseia.txt", "./generated_words/100MB.txt", "./generated_words/1000MB.txt"};
+    vector<string> files;
+    
+    if (argc < 2) {
+        cout << "Nenhum arquivo especificado. Usando arquivos padrão.\n";
+        files = {"arquivo1.txt", "arquivo2.txt", "arquivo3.txt", "PequenaSereia.txt", "Odisseia.txt"};
+    }
+    else for (int i = 1; i < argc; ++i)
+        files.push_back(argv[i]);
     
     // TESTE DA IMPLEMENTAÇÃO SEQUENCIAL
     cout << "=== INICIANDO PROCESSAMENTO SEQUENCIAL ===\n";
