@@ -3,41 +3,36 @@
 
 using namespace std;
 
+const unordered_map<string, string> uppercaseToLowercase = {
+    {"À", "à"}, {"Á", "á"}, {"Â", "â"}, {"Ã", "ã"}, {"Ä", "ä"},
+    {"Ç", "ç"}, {"È", "è"}, {"É", "é"}, {"Ê", "ê"}, {"Ë", "ë"},
+    {"Ì", "ì"}, {"Í", "í"}, {"Î", "î"}, {"Ï", "ï"}, {"Ò", "ò"},
+    {"Ó", "ó"}, {"Ô", "ô"}, {"Õ", "õ"}, {"Ö", "ö"}, {"Ù", "ù"},
+    {"Ú", "ú"}, {"Û", "û"}, {"Ü", "ü"}, {"Ç", "ç"}, {"Ñ", "ñ"}
+};
+
 // 1. Remover pontuação e passar tudo para minúsculo
 string cleanWord(string& word){
     string cleaned;
     for (size_t i = 0; i < word.size();) {
-        if (i == 0 && word.size() >= 3 &&
-            static_cast<unsigned char>(word[0]) == 0xEF &&
-            static_cast<unsigned char>(word[1]) == 0xBB &&
-            static_cast<unsigned char>(word[2]) == 0xBF) {
-            i = 3;
-            continue;
-        }
-
         unsigned char c = static_cast<unsigned char>(word[i]);
-        if (c < 128) {
-            if (isalnum(c)) {
-                cleaned += static_cast<char>(tolower(c));
-            }
-            ++i;
-            continue;
-        }
-
-        size_t length = (c & 0xE0) == 0xC0 ? 2 :
+        size_t length = c < 128 ? 1 :
+                        (c & 0xE0) == 0xC0 ? 2 :
                         (c & 0xF0) == 0xE0 ? 3 :
                         (c & 0xF8) == 0xF0 ? 4 : 1;
-        if (i + length <= word.size()) {
-            string character = word.substr(i, length);
-            static unordered_map<string, string> uppercaseToLowercase = {
-                {"À", "à"}, {"Á", "á"}, {"Â", "â"}, {"Ã", "ã"}, {"Ä", "ä"},
-                {"Ç", "ç"}, {"È", "è"}, {"É", "é"}, {"Ê", "ê"}, {"Ë", "ë"},
-                {"Ì", "ì"}, {"Í", "í"}, {"Î", "î"}, {"Ï", "ï"}, {"Ò", "ò"},
-                {"Ó", "ó"}, {"Ô", "ô"}, {"Õ", "õ"}, {"Ö", "ö"}, {"Ù", "ù"},
-                {"Ú", "ú"}, {"Û", "û"}, {"Ü", "ü"}, {"Ç", "ç"}
-            };
-            auto lowercase = uppercaseToLowercase.find(character);
-            cleaned += lowercase == uppercaseToLowercase.end() ? character : lowercase->second;
+
+        if (i + length > word.size()) {
+            break;
+        }
+
+        string character = word.substr(i, length);
+        auto lowercase = uppercaseToLowercase.find(character);
+        if (lowercase != uppercaseToLowercase.end()) {
+            cleaned += lowercase->second;
+        } else if (c < 128 && isalnum(c)) {
+            cleaned += static_cast<char>(tolower(c));
+        } else if (c >= 128) {
+            cleaned += character;
         }
         i += length;
     }
