@@ -3,7 +3,7 @@ import random
 
 # Configuration
 output_filename = "generated_words/1GB.txt"
-target_size_mb = 1000  # Change to 1000 for ~1GB
+target_size_mb = 100  # Change to 1000 for ~1GB
 
 crimefile = open('1000-most-common-portuguese-words.txt', 'r', encoding='utf-8')
 words_pool = [line.strip(' ').strip('\n') for line in crimefile]

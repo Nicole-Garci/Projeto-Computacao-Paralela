@@ -16,7 +16,7 @@ int main() {
 #endif
 
     // Lista de arquivos a serem processados
-    vector<string> files = {"arquivo1.txt", "arquivo2.txt", "arquivo3.txt", "PequenaSereia.txt", "Odisseia.txt", "./generated_words/100MB.txt", "./generated_words/1GB.txt"};
+    vector<string> files = {"arquivo1.txt", "arquivo2.txt", "arquivo3.txt", "PequenaSereia.txt", "Odisseia.txt", "./generated_words/100MB.txt", "./generated_words/1000MB.txt"};
     
     // TESTE DA IMPLEMENTAÇÃO SEQUENCIAL
     cout << "=== INICIANDO PROCESSAMENTO SEQUENCIAL ===\n";
