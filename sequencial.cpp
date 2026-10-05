@@ -15,7 +15,7 @@ const unordered_map<string, string> uppercaseToLowercase = {
 string cleanWord(string& word){
     string cleaned;
     for (size_t i = 0; i < word.size();) {
-        unsigned char c = static_cast<unsigned char>(word[i]);
+        unsigned char c = (unsigned char) word[i];
         size_t length = c < 128 ? 1 :
                         (c & 0xE0) == 0xC0 ? 2 :
                         (c & 0xF0) == 0xE0 ? 3 :
@@ -30,7 +30,7 @@ string cleanWord(string& word){
         if (lowercase != uppercaseToLowercase.end()) {
             cleaned += lowercase->second;
         } else if (c < 128 && isalnum(c)) {
-            cleaned += static_cast<char>(tolower(c));
+            cleaned += (char) tolower(c);
         } else if (c >= 128) {
             cleaned += character;
         }
